@@ -1,3 +1,4 @@
+import useFlowValidation from "@/components/hooks/useFlowValidation";
 import { cn } from "@/lib/utils";
 import { useReactFlow } from "@xyflow/react";
 import { ReactNode } from "react";
@@ -10,12 +11,13 @@ interface CardProps {
 
 function NodeCard({ nodeId, isSelected, children }: CardProps) {
     const { getNode, setCenter } = useReactFlow();
+    const { invalidInputs } = useFlowValidation();
+    const hasInvalidInputs = invalidInputs.some((node) => node.nodeId === nodeId)
     return (
         <div
             onDoubleClick={() => {
                 const node = getNode(nodeId);
                 if (!node) return;
-
                 const { position, measured } = node;
                 if (!position || !measured) return;
 
@@ -33,7 +35,8 @@ function NodeCard({ nodeId, isSelected, children }: CardProps) {
 
             className={cn(
                 "rounded-md cursor-pointer bg-background border-2 border-separate w-[420px] text-xs gap-1 flex flex-col",
-                isSelected && "border-primary"
+                isSelected && "border-primary",
+                hasInvalidInputs && "border-destructive border-2"
             )}
         >
             {children}
