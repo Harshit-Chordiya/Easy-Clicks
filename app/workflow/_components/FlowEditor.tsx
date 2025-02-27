@@ -20,6 +20,7 @@ import { TaskType } from "@/types/task";
 import NodeComponent from "./nodes/NodeComponent";
 import { AppNode } from "@/types/appNode";
 import DeletableEdge from "./edges/DeletableEdge";
+import { TaskRegistry } from "@/lib/workflow/task/registry";
 
 interface FlowEditorProps {
   workflow: Workflow;
@@ -27,16 +28,16 @@ interface FlowEditorProps {
 
 const nodeTypes = {
   FlowForgeNode: NodeComponent,
-}
+};
 
 const edgeTypes = {
-  default : DeletableEdge
-}
+  default: DeletableEdge,
+};
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
 
 export default function FlowEditor({ workflow }: FlowEditorProps) {
-  const { setViewport, screenToFlowPosition } = useReactFlow();
+  const { setViewport, screenToFlowPosition, updateNodeData } = useReactFlow();
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
@@ -50,7 +51,6 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
       if (!flow.viewport) return;
       const { x = 0, y = 0, zoom = 1 } = flow.viewport;
       setViewport({ x, y, zoom });
-
     } catch (error) {
       console.error("Error parsing workflow definition:", error);
     }
@@ -61,24 +61,87 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onDrop = useCallback((event: React.DragEvent) => {
-    event.preventDefault();
+  const onDrop = useCallback(
+    (event: React.DragEvent) => {
+      event.preventDefault();
 
-    const taskType = event.dataTransfer.getData("application/reactflow");
+      const taskType = event.dataTransfer.getData("application/reactflow");
 
-    if (typeof taskType === undefined || !taskType) return;
+      if (typeof taskType === undefined || !taskType) return;
 
-    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY });
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
 
-    const newNode = CreateFlowNode(taskType as TaskType, position);
+      const newNode = CreateFlowNode(taskType as TaskType, position);
 
-    setNodes((nds) => nds.concat(newNode));
-  }, [setNodes]);
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [screenToFlowPosition, setNodes]
+  );
 
-  const onConnect = (connection: Connection) => {
-    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
-  };
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+      if (!connection.targetHandle) return;
+
+      const node = nodes.find((nd) => nd.id === connection.target);
+      if (!node) return;
+      const nodeInputs = node.data.inputs;
+      updateNodeData(node.id, {
+        inputs: { ...nodeInputs, [connection.targetHandle]: "" },
+      });
+    },
+    [setEdges, updateNodeData, nodes]
+  );
+
+  const isValidConnection = useCallback(
+    (connection: Edge | Connection) => {
+      if (connection.source === connection.target) {
+        return false;
+      }
   
+      const source = nodes.find((node) => node.id === connection.source);
+      const target = nodes.find((node) => node.id === connection.target);
+      if (!source || !target) {
+        console.error("invalid connection: source or target node not found");
+        return false;
+      }
+  
+      const sourceTask = TaskRegistry[source.data.type];
+      const targetTask = TaskRegistry[target.data.type];
+  
+      const output = sourceTask.outputs.find(
+        (o) => o.name === connection.sourceHandle
+      );
+      const input = targetTask.inputs.find( 
+        (i) => i.name === connection.targetHandle
+      );
+  
+      console.log("DEBUG Connection Check:", { 
+        sourceType: source.data.type,
+        targetType: target.data.type,
+        sourceHandle: connection.sourceHandle,
+        targetHandle: connection.targetHandle,
+        input, 
+        output 
+      });
+      
+      if (!input || !output) {
+        console.error("invalid connection: input or output not found");
+        return false;
+      }
+  
+      if (input.type !== output.type) {
+        console.error("invalid connection: type mismatch");
+        return false;
+      }
+      
+      return true;
+    },
+    [nodes]
+  );
 
   return (
     <main className="h-full w-full">
@@ -96,6 +159,7 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
         onDragOver={onDragOver}
         onDrop={onDrop}
         onConnect={onConnect}
+        isValidConnection={isValidConnection}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
