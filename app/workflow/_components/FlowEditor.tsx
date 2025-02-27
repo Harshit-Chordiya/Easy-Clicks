@@ -9,6 +9,7 @@ import {
   Connection,
   Controls,
   Edge,
+  getOutgoers,
   ReactFlow,
   useEdgesState,
   useNodesState,
@@ -101,46 +102,59 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
       if (connection.source === connection.target) {
         return false;
       }
-  
+
       const source = nodes.find((node) => node.id === connection.source);
       const target = nodes.find((node) => node.id === connection.target);
       if (!source || !target) {
         console.error("invalid connection: source or target node not found");
         return false;
       }
-  
+
       const sourceTask = TaskRegistry[source.data.type];
       const targetTask = TaskRegistry[target.data.type];
-  
+
       const output = sourceTask.outputs.find(
         (o) => o.name === connection.sourceHandle
       );
-      const input = targetTask.inputs.find( 
+      const input = targetTask.inputs.find(
         (i) => i.name === connection.targetHandle
       );
-  
-      console.log("DEBUG Connection Check:", { 
-        sourceType: source.data.type,
-        targetType: target.data.type,
-        sourceHandle: connection.sourceHandle,
-        targetHandle: connection.targetHandle,
-        input, 
-        output 
-      });
-      
-      if (!input || !output) {
-        console.error("invalid connection: input or output not found");
-        return false;
-      }
-  
-      if (input.type !== output.type) {
+
+      //* Extra features
+
+      // console.log("DEBUG Connection Check:", {
+      //   sourceType: source.data.type,
+      //   targetType: target.data.type,
+      //   sourceHandle: connection.sourceHandle,
+      //   targetHandle: connection.targetHandle,
+      //   input,
+      //   output
+      // });
+
+      // if (!input || !output) {
+      //   console.error("invalid connection: input or output not found");
+      //   return false;
+      // }
+
+      if (input?.type !== output?.type) {
         console.error("invalid connection: type mismatch");
         return false;
       }
-      
-      return true;
-    },
-    [nodes]
+
+      const hasCycle = (node: AppNode, visited = new Set()) => {
+        if (visited.has(node.id)) return false;
+        visited.add(node.id);
+
+        for (const outgoer of getOutgoers(node, nodes, edges)) {
+          if (outgoer.id === connection.source) return true;
+          if (hasCycle(outgoer, visited)) return true;
+        }
+      };
+
+      const detectedCycle = hasCycle(target);
+      return !detectedCycle;
+    }, 
+    [nodes, edges]
   );
 
   return (
