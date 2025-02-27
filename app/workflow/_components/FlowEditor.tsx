@@ -21,8 +21,9 @@ interface FlowEditorProps {
 
 const nodeTypes={
   FlowForgeNode:NodeComponent,
-  
 }
+const snapGrid : [number,number]=[50,50];
+const fitViewOptions={padding:1};
  
 export default function FlowEditor({ workflow }: FlowEditorProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState([
@@ -38,8 +39,12 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        snapToGrid
+        snapGrid={snapGrid}
+        fitViewOptions={fitViewOptions}
+        fitView
       >
-        <Controls position="top-left" />
+        <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </main>

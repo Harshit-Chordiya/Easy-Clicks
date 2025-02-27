@@ -8,6 +8,7 @@ function CreateFlowNode(
   return {
     id: crypto.randomUUID(),
     type:"FlowForgeNode",
+    dragHandle:".drag-handle",
     data: {
       type: nodeType,
       inputs: {},
