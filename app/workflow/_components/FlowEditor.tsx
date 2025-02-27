@@ -19,6 +19,7 @@ import CreateFlowNode from "@/lib/workflow/createFlowNode";
 import { TaskType } from "@/types/task";
 import NodeComponent from "./nodes/NodeComponent";
 import { AppNode } from "@/types/appNode";
+import DeletableEdge from "./edges/DeletableEdge";
 
 interface FlowEditorProps {
   workflow: Workflow;
@@ -27,9 +28,13 @@ interface FlowEditorProps {
 const nodeTypes = {
   FlowForgeNode: NodeComponent,
 }
+
+const edgeTypes = {
+  default : DeletableEdge
+}
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
- 
+
 export default function FlowEditor({ workflow }: FlowEditorProps) {
   const { setViewport, screenToFlowPosition } = useReactFlow();
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
@@ -83,6 +88,7 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         snapToGrid
         snapGrid={snapGrid}
         fitViewOptions={fitViewOptions}
