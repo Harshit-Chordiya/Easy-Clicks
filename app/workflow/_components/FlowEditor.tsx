@@ -3,9 +3,12 @@
 import React, { useCallback, useEffect } from "react";
 import { Workflow } from "@prisma/client";
 import {
+  addEdge,
   Background,
   BackgroundVariant,
+  Connection,
   Controls,
+  Edge,
   ReactFlow,
   useEdgesState,
   useNodesState,
@@ -26,11 +29,11 @@ const nodeTypes = {
 }
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
-
+ 
 export default function FlowEditor({ workflow }: FlowEditorProps) {
-  const { setViewport,screenToFlowPosition } = useReactFlow();
+  const { setViewport, screenToFlowPosition } = useReactFlow();
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   useEffect(() => {
     try {
@@ -46,28 +49,31 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
     } catch (error) {
       console.error("Error parsing workflow definition:", error);
     }
-  }, [workflow.definition, setEdges, setNodes,setViewport]);
+  }, [workflow.definition, setEdges, setNodes, setViewport]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
-  
+
   const onDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
-  
-    const taskType = event.dataTransfer.getData("application/reactflow");
-  
-    if (typeof taskType===undefined||!taskType) return;
 
-    const position=screenToFlowPosition({x: event.clientX,y: event.clientY});
-  
-    const newNode = CreateFlowNode(taskType as TaskType,position);
-  
+    const taskType = event.dataTransfer.getData("application/reactflow");
+
+    if (typeof taskType === undefined || !taskType) return;
+
+    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY });
+
+    const newNode = CreateFlowNode(taskType as TaskType, position);
+
     setNodes((nds) => nds.concat(newNode));
   }, [setNodes]);
-  
 
+  const onConnect = (connection: Connection) => {
+    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+  };
+  
 
   return (
     <main className="h-full w-full">
@@ -83,6 +89,7 @@ export default function FlowEditor({ workflow }: FlowEditorProps) {
         fitView
         onDragOver={onDragOver}
         onDrop={onDrop}
+        onConnect={onConnect}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
