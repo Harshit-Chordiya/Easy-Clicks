@@ -156,7 +156,7 @@ async function executePhase(phase: ExecutionPhase, node: AppNode, environment: E
   const runFn = ExecutorRegistry[node.data.type];
   if (!runFn) return false;
 
-  const executionEnvironment:ExecutionEnvironment = createExecutionEnvironment(node, environment);
+  const executionEnvironment:ExecutionEnvironment<any> = createExecutionEnvironment(node, environment);
   return await runFn(executionEnvironment);
 }
 
