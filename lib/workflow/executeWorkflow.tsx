@@ -13,7 +13,7 @@ import { Environment, ExecutionEnvironment } from "@/types/executor";
 import { TaskParamType } from "@/types/task";
 import { Browser, Page } from "puppeteer";
 import { Edge } from "@xyflow/react";
-import { sleep } from "../utils";
+
 import { LogCollector } from "@/types/log";
 import { createLogCollector } from "../log";
 
