@@ -1,24 +1,34 @@
-"use client"
-import { Link } from "lucide-react";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "./ui/breadcrumb";
-import { MobileSidebar } from "./Sidebar";
+"use client";
 
-function BreadcrumbHeader() {
-  const pathName = usePathname();
-  const paths =pathName==="/"?[""]: pathName?.split("/").filter((path) => path); // Remove empty strings
+import React from "react";
+import MobileSidebar from "./Sidebar";
+import { usePathname } from "next/navigation";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
+
+export default function BreadcrumbHeader() {
+  const pathname = usePathname();
+  const paths = pathname === "/" ? [""] : pathname.split("/");
 
   return (
-    <div className="flex items-center fles-start">
-        <MobileSidebar />
+    <div className="flex items-center">
+      <MobileSidebar />
       <Breadcrumb>
         <BreadcrumbList>
           {paths.map((path, index) => (
             <React.Fragment key={index}>
+              {index !== 0 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
-                <BreadcrumbLink className="capitalize" href={`/${path}`}>
-                  {path === "" ? "Home" : path}
+                <BreadcrumbLink asChild>
+                  <Link className="capitalize" href={`/${path}`}>
+                    {path === "" ? "home" : path}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </React.Fragment>
@@ -28,5 +38,3 @@ function BreadcrumbHeader() {
     </div>
   );
 }
-
-export default BreadcrumbHeader;
