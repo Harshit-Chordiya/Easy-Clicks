@@ -42,7 +42,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { LogLevel } from "@/types/log";
-import PhaseStatusBadge from "./phase-status-badge";
+import PhaseStatusBadge from "./PhaseStatusBadge";
 import ReactCountUpWrapper from "@/components/react-count-up-wrapper";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
