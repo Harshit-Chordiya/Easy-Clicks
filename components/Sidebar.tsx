@@ -5,7 +5,8 @@ import { HomeIcon, Layers2Icon, ShieldCheckIcon, CoinsIcon, MenuIcon } from "luc
 import Logo from "./Logo";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "./ui/sheet";
+import AvailableCreditsBadge from "./UserAvaiableCreditsBadge";
 
 const routes = [
     {
@@ -30,29 +31,34 @@ const routes = [
     },
 ];
 
-function DesktopSidebar() {
+export function DesktopSidebar() {
     const pathname = usePathname();
-    const activeRoute =
-        routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
 
     return (
-        <div className="hidden relative md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
-            <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate">
+        <div className="relative hidden h-screen w-full min-w-[280px] max-w-[280px] border-separate overflow-hidden border-r-2 bg-primary/5 text-muted-foreground dark:bg-secondary/30 dark:text-foreground md:block">
+            <div className="flex border-separate items-center justify-center gap-2 border-b-[1px] p-4">
                 <Logo />
             </div>
-
-            <div className="p-2">TODO CREDITS</div>
+            <div className="p-2">
+                <AvailableCreditsBadge />
+            </div>
             <div className="flex flex-col p-2">
                 {routes.map((route) => (
-                    <Link key={route.href} href={route.href} className={buttonVariants({
-                        variant: activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem",
-                    })}>
+                    // Link styled to look like a Button via the buttonVariants cva function.
+                    // Alternatively, a more idiomatic approach would be to use a Button with asChild prop.
+                    <Link
+                        key={route.href}
+                        href={route.href}
+                        className={buttonVariants({
+                            variant:
+                                route.href === pathname ? "sidebarActiveItem" : "sidebarItem",
+                        })}
+                    >
                         <route.icon size={20} />
                         {route.label}
                     </Link>
                 ))}
             </div>
-
         </div>
     );
 }
@@ -61,28 +67,34 @@ export function MobileSidebar() {
     const [isOpen, setOpen] = useState(false);
     const pathname = usePathname();
 
-    const activeRoute =
-        routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
-
     return (
         <div className="block border-separate bg-background md:hidden">
-            <nav className="container flex items-center justify-between px-8">
+            <nav className="mr-8 flex items-center justify-between">
                 <Sheet open={isOpen} onOpenChange={setOpen}>
                     <SheetTrigger asChild>
-                        <Button variant={"ghost"} size={"icon"}>
+                        <Button variant="ghost" size="icon">
                             <MenuIcon />
                         </Button>
                     </SheetTrigger>
-
-                    <SheetContent className=" w-[400px] sm:w-[540px] space-y-4" side={"left"}>
+                    <SheetContent className="w-full max-w-sm space-y-4" side="left">
+                        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                        <SheetDescription className="sr-only">
+                            Access different sections of FlowScrape
+                        </SheetDescription>
                         <Logo />
+                        <AvailableCreditsBadge />
                         <div className="flex flex-col gap-1">
                             {routes.map((route) => (
                                 <Link
                                     key={route.href}
                                     href={route.href}
-                                    className={buttonVariants({variant: activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem"})}
-                                    onClick={()=> setOpen((prev)=> !prev)}
+                                    className={buttonVariants({
+                                        variant:
+                                            route.href === pathname
+                                                ? "sidebarActiveItem"
+                                                : "sidebarItem",
+                                    })}
+                                    onClick={() => setOpen((s) => !s)}
                                 >
                                     <route.icon size={20} />
                                     {route.label}
@@ -90,14 +102,8 @@ export function MobileSidebar() {
                             ))}
                         </div>
                     </SheetContent>
-
-
                 </Sheet>
             </nav>
         </div>
     );
 }
-
-// test commit 
-
-export default DesktopSidebar;
