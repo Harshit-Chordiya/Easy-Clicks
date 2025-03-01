@@ -8,10 +8,10 @@ import { FillInputExecutor } from "./FillInputExecutor";
 import { ClickElementExecutor } from "./ClickElementExecutor";
 import { WaitForElementExecutor } from "./WaitForElementExecutor";
 import { DeliverViaWebhookExecutor } from "./DeliverViaWebhookExecutor";
-import { ExtractDataWithAIExecutor } from "./extract-data-with-ai-executor";
-import { ReadPropertyFromJsonExecutor } from "./read-property-from-json-executor";
-import { AddPropertyToJsonExecutor } from "./add-property-to-json-executor";
-import { NavigateUrlExecutor } from "./navigate-url-executor";
+import { ExtractDataWithAIExecutor } from "./ExtractDataWithAiExecutor";
+import { ReadPropertyFromJsonExecutor } from "./ReadPropertyFromJsonExecutor";
+import { AddPropertyToJsonExecutor } from "./AddPropertyToJsonExecutor";
+import { NavigateUrlExecutor } from "./NavigateUrlExecutor";
 import { ScrollToElementExecutor } from "./scroll-to-element-executor";
 
 type ExecutorFunction<T extends WorkflowTask> = (
