@@ -18,7 +18,7 @@ import { getCredentialsForUser } from "@/actions/credentials/getCredentialsForUs
 
 export default function CredentialsParam({
   param,
-  updateNodeParamValue,
+  updateNodeParamValues,
   value,
 }: ParamProps) {
   const id = useId();
@@ -34,7 +34,7 @@ export default function CredentialsParam({
         {param.required && <p className="px-2 text-red-400">*</p>}
       </Label>
       <Select
-        onValueChange={(value) => updateNodeParamValue(value)}
+        onValueChange={(value) => updateNodeParamValues(value)}
         defaultValue={value}
       >
         <SelectTrigger className="w-full">

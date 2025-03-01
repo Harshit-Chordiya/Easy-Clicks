@@ -37,7 +37,7 @@ import ExecutionStatusIndicator, {
 } from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
 import { format, formatDistanceToNow } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-import DuplicateWorkflowDialog from "./duplicate-workflow-dialog";
+import DuplicateWorkflowDialog from "./DuplicateWorkflowDialog";
 
 const statusColors = {
     [WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -124,8 +124,8 @@ function WorkflowActions({
     return (
         <>
             <DeleteWorkflowDialog
-                isOpen={showDeleteDialog}
-                setIsOpen={setShowDeleteDialog}
+                open={showDeleteDialog}
+                setOpen={setShowDeleteDialog}
                 workflowId={workflowId}
                 workflowName={workflowName}
             />

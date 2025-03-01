@@ -1,6 +1,6 @@
 "use client";
 
-import { RunWorkflow } from "@/actions/workflows/runWorkFlow";
+import runWorkflow from "@/actions/workflows/runWorkFlow";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export default function RunBtn({ workflowId }: { workflowId: string }) {
   const mutation = useMutation({
-    mutationFn: RunWorkflow,
+    mutationFn: runWorkflow,
     onSuccess: () => {
       toast.success("Workflow executed", { id: "workflowId" });
     },

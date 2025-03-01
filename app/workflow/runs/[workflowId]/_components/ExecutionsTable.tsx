@@ -17,6 +17,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
 import { getWorkflowExecutions } from "@/actions/workflows/getWorkflowExecutions";
 import ExecutionStatusIndicator from "./ExecutionStatusIndicator";
+import { datesToDurationString } from "@/lib/helper/dates";
 
 type InitialDataType = Awaited<ReturnType<typeof getWorkflowExecutions>>;
 

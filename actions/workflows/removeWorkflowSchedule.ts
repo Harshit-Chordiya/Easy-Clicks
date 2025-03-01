@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import prisma from "@/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function removeWorkflowSchedule(id: string) {

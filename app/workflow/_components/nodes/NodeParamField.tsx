@@ -7,7 +7,7 @@ import { useReactFlow } from "@xyflow/react";
 import { AppNode } from "@/types/appNode";
 import BrowserInstanceParam from "./param/BrowserInstanceParam";
 import SelectParam from "./param/SelectParam";
-import CredentialsParam from "./param/credentials-param";
+import CredentialsParam from "./param/CredentialsParam";
 
 export default function NodeParamField({
   param,
@@ -66,7 +66,7 @@ export default function NodeParamField({
         <CredentialsParam
           param={param}
           value={value}
-          updateNodeParamValue={updateNodeParamValue}
+          updateNodeParamValues={updateNodeParamValue}
           disabled={disabled}
         />
       );

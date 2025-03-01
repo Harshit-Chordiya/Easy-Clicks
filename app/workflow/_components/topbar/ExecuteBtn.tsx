@@ -1,6 +1,6 @@
 "use client";
 
-import { RunWorkflow } from "@/actions/workflows/runWorkFlow";
+import runWorkflow from "@/actions/workflows/runWorkFlow";
 import useExecutionPlan from "@/components/hooks/useExecutionPlan";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -14,29 +14,27 @@ export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
   const { toObject } = useReactFlow();
 
   const mutation = useMutation({
-    mutationFn: RunWorkflow,
+    mutationFn: runWorkflow,
     onSuccess: () => {
       toast.success("Execution started", { id: "flow-execution" });
     },
     onError: () => {
-      toast.error("Something went wrong", { id: "flow-execution" });
-    }
+      toast.error("Failed to start execution", { id: "flow-execution" });
+    },
   });
+
   return (
     <Button
-      variant={"outline"}
+      variant="outline"
       className="flex items-center gap-2"
-      disabled = {mutation.isPending}
+      disabled={mutation.isPending}
       onClick={() => {
         const plan = generate();
-        if (!plan) {
-          // Client side validation!
-          return;
-        }
+        if (!plan) return;
         mutation.mutate({
-          workflowId: workflowId,
+          workflowId,
           flowDefinition: JSON.stringify(toObject()),
-        })
+        });
       }}
     >
       <PlayIcon size={16} className="stroke-orange-400" />

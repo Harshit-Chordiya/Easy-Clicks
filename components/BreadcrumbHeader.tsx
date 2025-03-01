@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import MobileSidebar from "./Sidebar";
 import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
@@ -11,6 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { MobileSidebar } from "./Sidebar";
 
 export default function BreadcrumbHeader() {
   const pathname = usePathname();

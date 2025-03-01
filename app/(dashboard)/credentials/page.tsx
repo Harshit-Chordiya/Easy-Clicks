@@ -6,7 +6,7 @@ import { getCredentialsForUser } from "@/actions/credentials/getCredentialsForUs
 import { Card } from "@/components/ui/card";
 import CreateCredentialDialog from "./_components/CreateCredentialDialog";
 import { formatDistanceToNow } from "date-fns";
-import DeleteCredentialDialog from "./_components/delete-credential-dialog";
+import DeleteCredentialDialog from "./_components/DeleteCredentialDialog";
 
 export default function CredentialsPage() {
     return (

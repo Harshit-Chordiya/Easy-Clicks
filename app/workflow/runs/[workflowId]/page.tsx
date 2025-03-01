@@ -2,6 +2,8 @@ import React, { Suspense } from "react";
 
 import { InboxIcon, Loader2Icon } from "lucide-react";
 import Topbar from "../../_components/topbar/Topbar";
+import { getWorkflowExecutions } from "@/actions/workflows/getWorkflowExecutions";
+import ExecutionsTable from "./_components/ExecutionsTable";
 
 export const dynamic = "force-dynamic";
 
