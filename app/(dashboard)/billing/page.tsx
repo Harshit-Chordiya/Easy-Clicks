@@ -15,8 +15,8 @@ import CreditsPurchase from "./_components/CreditsPurchase";
 import { Period } from "@/types/analytics";
 import { getCreditsUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
 import CreditUsageChart from "./_components/CreditUsageChart";
-import { getUserPurchaseHistory } from "@/actions/billing/";
-import InvoiceBtn from "./_components/";
+import { getUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
+import InvoiceBtn from "./_components/InvoiceBtn";
 
 export default async function BillingPage() {
     return (
