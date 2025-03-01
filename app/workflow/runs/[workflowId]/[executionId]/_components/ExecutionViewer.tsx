@@ -5,7 +5,7 @@ import getWorkflowPhaseDetails from "@/actions/workflows/getWorkflowPhaseDetails
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-// import { getPhasesTotalCost } from "@/lib/phases";
+import { getPhasesTotalCost } from "@/lib/phases";
 import { GetPhasesTotalCost } from "@/lib/helper/phases";
 import { cn, datesToDurationString } from "@/lib/utils";
 import {
@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/table";
 import { LogLevel } from "@/types/log";
 import PhaseStatusBadge from "./PhaseStatusBadge";
-import ReactCountUpWrapper from "@/components/react-count-up-wrapper";
+import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 

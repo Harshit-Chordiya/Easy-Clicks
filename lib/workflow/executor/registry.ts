@@ -6,7 +6,7 @@ import { ExecutionEnvironment } from "@/types/executor";
 import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor";
 import { FillInputExecutor } from "./FillInputExecutor";
 import { ClickElementExecutor } from "./ClickElementExecutor";
-import { WaitForElementExecutor } from "./wait-for-element-executor";
+import { WaitForElementExecutor } from "./WaitForElementExecutor";
 import { DeliverViaWebhookExecutor } from "./deliver-via-webhook-executor";
 import { ExtractDataWithAIExecutor } from "./extract-data-with-ai-executor";
 import { ReadPropertyFromJsonExecutor } from "./read-property-from-json-executor";

@@ -1,15 +1,33 @@
-import { ExtractTextFromElementTask } from "@/lib/workflow/task/ExtractTextFromElement";
-import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
-import { PageToHtmlTask } from "@/lib/workflow/task/PageToHtml";
 import { TaskType } from "@/types/task";
+import { ExtractTextFromElementTask } from "./ExtractTextFromElement";
+import { LaunchBrowserTask } from "./LaunchBrowser";
+import { PageToHtmlTask } from "./PageToHtml";
 import { WorkflowTask } from "@/types/workflow";
+import { FillInputTask } from "./FillInput";
+import { ClickElementTask } from "./ClickElement";
+import { WaitForElementTask } from "./WaitForElement";
+import { DeliverViaWebhookTask } from "./deliver-via-webhook";
+import { ExtractDataWithAITask } from "./extract-data-with-ai";
+import { ReadPropertyFromJsonTask } from "./read-property-from-json";
+import { AddPropertyToJsonTask } from "./add-property-to-json";
+import { NavigateUrlTask } from "./navigate-url";
+import { ScrollToElementTask } from "./scroll-to-element";
 
 type Registry = {
-  [K in TaskType]: WorkflowTask & {type: K};
+  [K in TaskType]: WorkflowTask & { type: K };
 };
 
 export const TaskRegistry: Registry = {
   LAUNCH_BROWSER: LaunchBrowserTask,
   PAGE_TO_HTML: PageToHtmlTask,
   EXTRACT_TEXT_FROM_ELEMENT: ExtractTextFromElementTask,
+  FILL_INPUT: FillInputTask,
+  CLICK_ELEMENT: ClickElementTask,
+  WAIT_FOR_ELEMENT: WaitForElementTask,
+  DELIVER_VIA_WEBHOOK: DeliverViaWebhookTask,
+  EXTRACT_DATA_WITH_AI: ExtractDataWithAITask,
+  READ_PROPERTY_FROM_JSON: ReadPropertyFromJsonTask,
+  ADD_PROPERTY_TO_JSON: AddPropertyToJsonTask,
+  NAVIGATE_URL: NavigateUrlTask,
+  SCROLL_TO_ELEMENT: ScrollToElementTask,
 };

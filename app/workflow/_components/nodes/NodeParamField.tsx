@@ -1,29 +1,26 @@
 "use client";
-import { useReactFlow } from "@xyflow/react";
+
 import { TaskParam, TaskParamType } from "@/types/task";
-import StringParam from "./param/StringParam"; // Ensure this path is correct
+import React, { useCallback } from "react";
+import StringParam from "./param/StringParam";
+import { useReactFlow } from "@xyflow/react";
 import { AppNode } from "@/types/appNode";
-import { useCallback } from "react";
 import BrowserInstanceParam from "./param/BrowserInstanceParam";
+import SelectParam from "./param/SelectParam";
+import CredentialsParam from "./param/credentials-param";
 
-interface NodeParamFieldProps {
-  param: TaskParam;
-  nodeId: string;
-}
-
-function NodeParamField({
+export default function NodeParamField({
   param,
   nodeId,
   disabled,
 }: {
   param: TaskParam;
   nodeId: string;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   const { updateNodeData, getNode } = useReactFlow();
   const node = getNode(nodeId) as AppNode;
-
-  const value = node?.data?.inputs?.[param.name];
+  const value = node?.data.inputs?.[param.name];
 
   const updateNodeParamValue = useCallback(
     (newValue: string) => {
@@ -34,7 +31,7 @@ function NodeParamField({
         },
       });
     },
-    [nodeId, updateNodeData, param.name, node?.data.inputs]
+    [updateNodeData, param.name, node?.data.inputs, nodeId],
   );
 
   switch (param.type) {
@@ -44,10 +41,9 @@ function NodeParamField({
           param={param}
           value={value}
           updateNodeParamValues={updateNodeParamValue}
-          disabled = {disabled}
+          disabled={disabled}
         />
       );
-
     case TaskParamType.BROWSER_INSTANCE:
       return (
         <BrowserInstanceParam
@@ -56,14 +52,29 @@ function NodeParamField({
           updateNodeParamValues={updateNodeParamValue}
         />
       );
-
+    case TaskParamType.SELECT:
+      return (
+        <SelectParam
+          param={param}
+          value={value}
+          updateNodeParamValues={updateNodeParamValue}
+          disabled={disabled}
+        />
+      );
+    case TaskParamType.CREDENTIAL:
+      return (
+        <CredentialsParam
+          param={param}
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+          disabled={disabled}
+        />
+      );
     default:
       return (
         <div className="w-full">
-          <p className=" text-xs text-muted-foreground">Not implemented</p>
+          <p className="text-sm text-muted-foreground">Not implemented</p>
         </div>
       );
   }
 }
-
-export default NodeParamField;
