@@ -6,10 +6,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getStatsCardsValues } from "@/actions/analytics/getStatsCardsValues";
 import { CirclePlayIcon, CoinsIcon, WaypointsIcon } from "lucide-react";
 import StatsCard from "./_components/StatsCard";
-import { getWorkflowExecutionStats } from "@/actions/analytics/get-workflow-execution-stats";
-import ExecutionStatusChart from "./_components/execution-status-chart";
-import { getCreditsUsageInPeriod } from "@/actions/analytics/get-credits-usage-in-period";
-import CreditUsageChart from "../billing/_components/credit-usage-chart";
+import { getWorkflowExecutionStats } from "@/actions/analytics/getWorkFlowExecutionStats";
+import ExecutionStatusChart from "./_components/ExecutionStatusChart";
+import { getCreditsUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
+import CreditUsageChart from "../billing/_components/CreditUsageChart";
 
 type Props = {
   searchParams: {
