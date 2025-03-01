@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -11,23 +9,27 @@ datasource db {
 }
 
 model Workflow {
-  id          String   @id @default(cuid())
-  userId      String
-  name        String
-  description String?
-  definition  String
-  status      String
+  id            String  @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  definition    String
+  executionPlan String?
+  creditsCost   Int     @default(0)
+  cron          String? // cron expression
+  status        String // DRAFT, PUBLISHED
 
-  lastRunAt    DateTime?
-  lastRunId    String?
+  lastRunAt     DateTime?
+  lastRunId     String?
   lastRunStatus String?
+  nextRunAt     DateTime?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  executions WorkflowExecution[]
+  workflowExecutions WorkflowExecution[]
 
-  @@unique([name, userId])
+  @@unique([userId, name])
 }
 
 model WorkflowExecution {
@@ -36,31 +38,46 @@ model WorkflowExecution {
   userId      String
   trigger     String
   status      String
-  createdAt   DateTime  @default(now())
   startedAt   DateTime?
   completedAt DateTime?
+  definition  String    @default("{}")
 
   creditsConsumed Int @default(0)
 
-  phases ExecutionPhase[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  phases   ExecutionPhase[]
+  workflow Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
 
 model ExecutionPhase {
-  id          String    @id @default(cuid())
-  userId      String
-  status      String
-  number      Int
-  node        String
-  name        String
-  startedAt   DateTime?
-  completedAt DateTime?
-  inputs      String?
-  outputs     String?
-
+  id              String    @id @default(cuid())
+  userId          String
+  status          String
+  number          Int
+  node            String
+  name            String
+  startedAt       DateTime?
+  completedAt     DateTime?
+  inputs          String?
+  outputs         String?
   creditsConsumed Int?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   workflowExecutionId String
-  execution           WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+  workflowExecution   WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+  executionLogs       ExecutionLog[]
+}
+
+model ExecutionLog {
+  id        String   @id @default(cuid())
+  logLevel  String
+  message   String
+  timestamp DateTime @default(now())
+
+  executionPhaseId String
+  executionPhase   ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
 }

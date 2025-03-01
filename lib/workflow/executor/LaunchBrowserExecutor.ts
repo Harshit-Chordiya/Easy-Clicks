@@ -1,23 +1,22 @@
 import puppeteer from "puppeteer";
-import { waitFor } from "@/lib/helper/waitFor";
-import { Environment, ExecutionEnvironment } from "@/types/executor";
-import { env } from "process";
+import { ExecutionEnvironment } from "@/types/executor";
 import { LaunchBrowserTask } from "../task/LaunchBrowser";
 
-export async function LaunchBrowserExecutor(environment:ExecutionEnvironment<typeof LaunchBrowserTask>): Promise<boolean> {
+export async function LaunchBrowserExecutor(
+  environment: ExecutionEnvironment<typeof LaunchBrowserTask>,
+): Promise<boolean> {
   try {
-    const webisteUrl = environment.getInput("Website URL");
-    console.log("website",webisteUrl);
-    const browser = await puppeteer.launch({
-      headless: false, 
-    });
-
-    await waitFor(3000);
-
-    await browser.close();
+    const websiteUrl = environment.getInput("Website URL");
+    const browser = await puppeteer.launch({ headless: true });
+    environment.log.info("Browser launched");
+    environment.setBrowser(browser);
+    const page = await browser.newPage();
+    await page.goto(websiteUrl);
+    environment.setPage(page);
+    environment.log.info("Opened page at " + websiteUrl);
     return true;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    environment.log.error(error.message);
     return false;
   }
 }
