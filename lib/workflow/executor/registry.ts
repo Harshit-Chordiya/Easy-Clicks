@@ -12,7 +12,7 @@ import { ExtractDataWithAIExecutor } from "./ExtractDataWithAiExecutor";
 import { ReadPropertyFromJsonExecutor } from "./ReadPropertyFromJsonExecutor";
 import { AddPropertyToJsonExecutor } from "./AddPropertyToJsonExecutor";
 import { NavigateUrlExecutor } from "./NavigateUrlExecutor";
-import { ScrollToElementExecutor } from "./scroll-to-element-executor";
+import { ScrollToElementExecutor } from "./ScrollToElementExecutor";
 
 type ExecutorFunction<T extends WorkflowTask> = (
   environment: ExecutionEnvironment<T>,
