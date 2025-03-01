@@ -5,7 +5,7 @@ import { WorkflowTask } from "@/types/workflow";
 import { ExecutionEnvironment } from "@/types/executor";
 import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor";
 import { FillInputExecutor } from "./FillInputExecutor";
-import { ClickElementExecutor } from "./click-element-executor";
+import { ClickElementExecutor } from "./ClickElementExecutor";
 import { WaitForElementExecutor } from "./wait-for-element-executor";
 import { DeliverViaWebhookExecutor } from "./deliver-via-webhook-executor";
 import { ExtractDataWithAIExecutor } from "./extract-data-with-ai-executor";
