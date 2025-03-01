@@ -7,10 +7,10 @@ import { FillInputTask } from "./FillInput";
 import { ClickElementTask } from "./ClickElement";
 import { WaitForElementTask } from "./WaitForElement";
 import { DeliverViaWebhookTask } from "./DeliverViaWebhook";
-import { ExtractDataWithAITask } from "./extract-data-with-ai";
-import { ReadPropertyFromJsonTask } from "./read-property-from-json";
-import { AddPropertyToJsonTask } from "./add-property-to-json";
-import { NavigateUrlTask } from "./navigate-url";
+import { ExtractDataWithAITask } from "./ExtractDataWithAI";
+import { ReadPropertyFromJsonTask } from "./ReadPropertyFromJson";
+import { AddPropertyToJsonTask } from "./AddPropertyToJson";
+import { NavigateUrlTask } from "./NavigateUrlTask";
 import { ScrollToElementTask } from "./scroll-to-element";
 
 type Registry = {
