@@ -86,3 +86,28 @@ model UserBalance {
   userId  String @id
   credits Int
 }
+
+model Credential {
+  id     String @id @default(cuid())
+  userId String
+  name   String
+  value  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, name])
+}
+
+model UserPurchase {
+  id          String   @id @default(cuid())
+  userId      String
+  stripeId    String
+  description String
+  amount      Int
+  currency    String
+  date        DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
