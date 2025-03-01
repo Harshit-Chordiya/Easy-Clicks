@@ -6,7 +6,7 @@ import { WorkflowTask } from "@/types/workflow";
 import { FillInputTask } from "./FillInput";
 import { ClickElementTask } from "./ClickElement";
 import { WaitForElementTask } from "./WaitForElement";
-import { DeliverViaWebhookTask } from "./deliver-via-webhook";
+import { DeliverViaWebhookTask } from "./DeliverViaWebhook";
 import { ExtractDataWithAITask } from "./extract-data-with-ai";
 import { ReadPropertyFromJsonTask } from "./read-property-from-json";
 import { AddPropertyToJsonTask } from "./add-property-to-json";

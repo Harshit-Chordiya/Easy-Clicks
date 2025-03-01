@@ -7,7 +7,7 @@ import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor
 import { FillInputExecutor } from "./FillInputExecutor";
 import { ClickElementExecutor } from "./ClickElementExecutor";
 import { WaitForElementExecutor } from "./WaitForElementExecutor";
-import { DeliverViaWebhookExecutor } from "./deliver-via-webhook-executor";
+import { DeliverViaWebhookExecutor } from "./DeliverViaWebhookExecutor";
 import { ExtractDataWithAIExecutor } from "./extract-data-with-ai-executor";
 import { ReadPropertyFromJsonExecutor } from "./read-property-from-json-executor";
 import { AddPropertyToJsonExecutor } from "./add-property-to-json-executor";
