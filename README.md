@@ -1,6 +1,6 @@
 # 🚀 **Easy-Clicks**
 
-Easy-Clicks is an autonomous task management agent that transforms complex digital operations into intuitive, streamlined workflows. It allows you to create custom workflows by connecting smart nodes that handle tasks like data extraction and multi-platform communication.
+Easy-Clicks is an autonomous task management agent that transforms complex operations into intuitive workflows. It allows you to create custom workflows by connecting smart nodes
 
 
 
@@ -13,7 +13,7 @@ Creating separate AI platforms for every task is both costly and labor-intensive
 **Easy-Clicks** is designed to bridge the gap between manual effort and automation. It allows you to:
 - Build flexible workflows by connecting specialized nodes.
 - Automate repetitive tasks like web scraping and data processing.
-- Seamlessly manage multi-platform communication and complex decision trees.  
+- Seamlessly manage multi-platform communication.  
 
 In essence, Easy-Clicks transforms your workflow into an efficient, automated system tailored to your specific needs.
 
@@ -49,8 +49,7 @@ The following diagram illustrates the Easy-Clicks workflow:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/pakagronglb/flowscrape-ai-webscraper.git
-cd flowscrape-ai-webscraper
+git clone https://github.com/Harshit-Chordiya/Easy-Clicks.git
 ```
 
 2. Install dependencies:
@@ -88,10 +87,6 @@ npx prisma db push
 6. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -104,9 +99,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 4. Configure scraping parameters
 5. Run and monitor your workflow
 6. View and export collected data
-
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
